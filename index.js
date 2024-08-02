@@ -69,7 +69,7 @@ bot.command('start', async (ctx) => {
         }
     })
 
-    const data = JSON.stringify({ "user_id": ctx.from.id, "refer": ref_str})
+    const data = JSON.stringify({ "user_id": "" + ctx.from.id, "refer": ref_str})
     var base_url = URL + '/create_user'
     fetch(base_url, {
             method: "POST",
