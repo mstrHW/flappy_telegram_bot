@@ -184,6 +184,11 @@ bot.on("message", async (ctx) => {
  await ctx.reply('Надо подумать...');
 });
 
+app.post("/bot", async (ctx) => {
+    const { body } = ctx.request;
+    await bot.handleUpdate(body);
+    ctx.status = 200;
+});
 
 const port = 8000;
 
