@@ -184,8 +184,10 @@ bot.on("message", async (ctx) => {
  await ctx.reply('Надо подумать...');
 });
 
+// bot.start()
+
 app.post("/bot", async (ctx) => {
-    const { body } = ctx.request.body;
+    const { body } = await ctx.request;
     await bot.handleUpdate(body);
     ctx.status = 200;
 });
