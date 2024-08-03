@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 3000
 
 # The command required to run the app is specified
-CMD [ "npm", "start" ]
+CMD [ "node", "index.js" ]
