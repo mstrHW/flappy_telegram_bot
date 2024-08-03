@@ -185,7 +185,7 @@ bot.on("message", async (ctx) => {
 });
 
 app.post("/bot", async (ctx) => {
-    const { body } = ctx.request;
+    const { body } = ctx.request.body;
     await bot.handleUpdate(body);
     ctx.status = 200;
 });
