@@ -16,7 +16,6 @@ const URL = "https://flappybotback-4fm7p9xx.b4a.run";
 const express = require("express");
 
 const app = express(); // or whatever you're using
-app.use(express.json()); // parse the JSON request body
 
 async function greeting(conversation, ctx) {
     await ctx.reply("Type title");
@@ -186,5 +185,10 @@ bot.on("message", async (ctx) => {
 });
 
 
-app.use(webhookCallback(bot, "express"));
-app.listen(5000, () => console.log(`listening on port 5000`));
+const port = 8000;
+
+app.use(express.json());
+app.use(`/${bot.token}`, webhookCallback(bot, "express"));
+app.use((_req, res) => res.status(200).send());
+
+app.listen(port, () => console.log(`listening on port ${port}`));
