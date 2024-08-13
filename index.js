@@ -30,10 +30,16 @@ async function greeting(conversation, ctx) {
     ctx = await conversation.wait();
     const task_money = ctx.message?.text;
 
+    await ctx.reply("Type 1 for auto-accept\nType 0 for manual-accept mode");
+    ctx = await conversation.wait();
+    const auto_accept = ctx.message?.text;
+
+    const auto_accept_bool = auto_accept == "1";
     const data = JSON.stringify({
         "title": task_title,
         "link": task_link,
         "money": task_money,
+        "auto_accept": auto_accept_bool,
     })
     var base_url = URL + '/add_task';
     fetch(base_url, {
@@ -132,7 +138,7 @@ bot.command('start', async (ctx) => {
     // console.log({chat_id: process.env.BOT_NAME, name: "" + ctx.from.id});
     // const invite = await bot.api.createChatInviteLink(process.env.BOT_NAME, {name: "" + ctx.from.id})
     // console.log(invite);
-    const data = JSON.stringify({ "user_id": "" + ctx.from.id, "refer": ref_str})
+    const data = JSON.stringify({ "user_id": "" + ctx.from.id, "refer": ref_str, "has_premium": ctx.from.is_premium == true})
     var base_url = URL + '/create_user'
     fetch(base_url, {
             method: "POST",
@@ -184,7 +190,7 @@ bot.on("message", async (ctx) => {
  await ctx.reply('Надо подумать...');
 });
 
-// bot.start()
+bot.start()
 
 app.post("/bot", async (ctx) => {
     const { body } = await ctx.request;
@@ -192,7 +198,7 @@ app.post("/bot", async (ctx) => {
     ctx.status = 200;
 });
 
-const port = 8000;
+const port = 3000;
 
 app.use(express.json());
 app.use(`/${bot.token}`, webhookCallback(bot, "express"));
