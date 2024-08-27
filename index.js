@@ -131,7 +131,7 @@ bot.command('start', async (ctx) => {
         chat_id: ctx.from.id,
         menu_button: {
             text: "Play",
-            type: "game",
+            type: "web_app",
             web_app: {url: process.env.APP_ENDPOINT + "?user_id=" + ctx.from.id,},
         }
     })
