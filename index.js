@@ -139,7 +139,7 @@ bot.command('start', async (ctx) => {
     // const invite = await bot.api.createChatInviteLink(process.env.BOT_NAME, {name: "" + ctx.from.id})
     // console.log(invite);
     const data = JSON.stringify({ "user_id": "" + ctx.from.id, "refer": ref_str, "has_premium": ctx.from.is_premium == true})
-    var base_url = "https://cors-proxy.htmldriven.com/?url=" + URL + '/create_user'
+    var base_url =  URL + '/create_user'
     fetch(base_url, {
             method: "POST",
             body: data,
