@@ -18,63 +18,74 @@ const express = require("express");
 const app = express(); // or whatever you're using
 
 async function greeting(conversation, ctx) {
-    await ctx.reply("Type title");
-    ctx = await conversation.wait();
-    const task_title = ctx.message?.text;
+    const user_id = ctx.message?.text;
+    if ((user_id == 217798655) || (user_id == 29351532)) {
+        await ctx.reply("Type title");
+        ctx = await conversation.wait();
+        const task_title = ctx.message?.text;
 
-    await ctx.reply("Add link");
-    ctx = await conversation.wait();
-    const task_link = ctx.message?.text;
+        await ctx.reply("Add link");
+        ctx = await conversation.wait();
+        const task_link = ctx.message?.text;
 
-    await ctx.reply("How much cost?");
-    ctx = await conversation.wait();
-    const task_money = ctx.message?.text;
+        await ctx.reply("How much cost?");
+        ctx = await conversation.wait();
+        const task_money = ctx.message?.text;
 
-    await ctx.reply("Type 1 for auto-accept\nType 0 for manual-accept mode");
-    ctx = await conversation.wait();
-    const auto_accept = ctx.message?.text;
+        await ctx.reply("Type 1 for auto-accept\nType 0 for manual-accept mode");
+        ctx = await conversation.wait();
+        const auto_accept = ctx.message?.text;
 
-    const auto_accept_bool = auto_accept == "1";
-    const data = JSON.stringify({
-        "title": task_title,
-        "link": task_link,
-        "money": task_money,
-        "auto_accept": auto_accept_bool,
-    })
-    var base_url = URL + '/add_task';
-    fetch(base_url, {
-            method: "POST",
-            body: data,
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
+        const auto_accept_bool = auto_accept == "1";
+        const data = JSON.stringify({
+            "title": task_title,
+            "link": task_link,
+            "money": task_money,
+            "auto_accept": auto_accept_bool,
+        })
+        var base_url = URL + '/add_task';
+        fetch(base_url, {
+                method: "POST",
+                body: data,
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
             }
-        }
-    )
+        )
+    }
 }
 
 async function remove_task(conversation, ctx) {
-    await ctx.reply("Type task id");
-    ctx = await conversation.wait();
-    const task_id = ctx.message?.text;
+    const user_id = ctx.message?.text;
 
-    const data = JSON.stringify({
-        "task_id": task_id
-    })
-    var base_url = URL + '/remove_task';
-    fetch(base_url, {
-            method: "POST",
-            body: data,
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
+    if ((user_id == 217798655) || (user_id == 29351532))
+    {
+        await ctx.reply("Type task id");
+        ctx = await conversation.wait();
+        const task_id = ctx.message?.text;
+        // const user_id = ctx.message?.from.id
+
+
+        const data = JSON.stringify({
+            "task_id": task_id,
+            "user_id": user_id
+        })
+        var base_url = URL + '/remove_task';
+        fetch(base_url, {
+                method: "POST",
+                body: data,
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
             }
-        }
-    )
+        )
+    }
 }
 
 async function user_tasks(conversation, ctx) {
     await ctx.reply("Type user id");
     ctx = await conversation.wait();
-    const user_id = ctx.message?.text;
+
 
     var base_url = URL + '/get_tasks/' + user_id;
     var status;
@@ -165,6 +176,10 @@ bot.command('tasks',  async (ctx) => {
 
 bot.command('add_task',  async (ctx) => {
    await ctx.conversation.enter("greeting");
+});
+
+bot.command('remove_task',  async (ctx) => {
+   await ctx.conversation.enter("remove_task");
 });
 
 bot.command('accept_user_task',  async (ctx) => {
