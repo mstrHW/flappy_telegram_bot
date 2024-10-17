@@ -42,6 +42,7 @@ async function greeting(conversation, ctx) {
             "link": task_link,
             "money": task_money,
             "auto_accept": auto_accept_bool,
+            "user_id": user_id
         })
         var base_url = URL + '/add_task';
         fetch(base_url, {
