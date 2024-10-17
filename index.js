@@ -18,7 +18,7 @@ const express = require("express");
 const app = express(); // or whatever you're using
 
 async function greeting(conversation, ctx) {
-    const user_id = ctx.message?.text;
+    const user_id = ctx.message?.from.id;
     if ((user_id == 217798655) || (user_id == 29351532)) {
         await ctx.reply("Type title");
         ctx = await conversation.wait();
@@ -56,7 +56,7 @@ async function greeting(conversation, ctx) {
 }
 
 async function remove_task(conversation, ctx) {
-    const user_id = ctx.message?.text;
+    const user_id = ctx.message?.from.id;
 
     if ((user_id == 217798655) || (user_id == 29351532))
     {
